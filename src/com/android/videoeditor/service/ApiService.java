@@ -1808,6 +1808,19 @@ public class ApiService extends Service {
                     videoEditor.insertMediaItem(mediaItem,
                             intent.getStringExtra(PARAM_RELATIVE_STORYBOARD_ITEM_ID));
 
+                    File f = new File(filename);
+                    try {
+                        if(mediaItem.getDuration()>0){
+                                ContentValues values = new ContentValues();
+                                values.put(Video.Media.DURATION, mediaItem.getDuration());
+                                values.put(Video.Media.SIZE, f.length());
+                                getContentResolver().update(data, values, null, null);
+                        }
+
+                    } catch (Exception e) {
+                        //TODO: handle exception;
+                    }
+                    
                     // If this is the first media item, change the aspect ratio
                     final Integer aspectRatio;
                     if (videoEditor.getAllMediaItems().size() == 1) {
